@@ -16,7 +16,7 @@ const product = [
   },
 ];
 
-const ul = document.querySelector("ul");
+const listIten = document.getElementById("list-item");
 
 function addIten(productList) {
   for (let i = 0; i < productList.length; i++) {
@@ -26,19 +26,32 @@ function addIten(productList) {
 
     spanName.textContent = product[i].name;
     spanPrice.textContent = `Preço: ${product[i].price}`;
-    const select = document.createElement("select");
-    
-    for (let j = 0; j <= product.amount; j++) {
-      const option = document.createElement("option");
-      option.textContent = product[j].amount;
-      select.append(option);
-    }
+    // const select = document.createElement("select");
 
-    ul.append(li);
+    listIten.append(li);
     li.append(spanName);
     li.append(spanPrice);
-    li.append(select);
+    // li.append(select);
+
+    // for (let j = 1; j <= product[i].amount; j++) {
+    //   const option = document.createElement("option");
+    //   option.textContent = j;
+    //   option.value = j;
+    //   select.append(option);
+    // }
+
+    const button = document.createElement("button");
+    button.textContent = "Adicionar ao carrinho";
+    li.append(button);
+    li.dataset.index = i;
   }
 }
 
 addIten(product);
+
+button.addEventListener("click", () => {
+  const dialog = document.querySelector("dialog");
+  dialog.showModal();
+
+  const itemNoCarrinho = product[li.dataset.index];
+});
