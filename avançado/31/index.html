@@ -7,34 +7,63 @@
   </head>
 
   <body>
-
     <ul id="list-item">
-      <option value=""></option>
+      <!-- <li>
+        <span>name</span>
+        <span>price:10.00</span>
+        <select name="" id="">
+          <option value="1">1</option>
+          <option value="2">2</option>
+        </select>
+        <button>ADD CARRINHO</button>
+      </li> -->
     </ul>
 
-    <dialog>
-      <div>teste</div>
-    </dialog>
+    <aside>
+      <ul id="list-car">
+
+      </ul>
+    </aside>
+
     <!-- CSS -->
     <style>
-      ul{
+      * {
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+      }
+      body {
         display: flex;
-        gap: 1rem;
+        width: 100%;
+        justify-content: space-between;
+        padding-inline: 3rem;
+        #list-item {
+          display: flex;
+          gap: 1rem;
+          li {
+            display: flex;
+            flex-direction: column;
+            border: 1px solid red;
+            width: 100px;
+          }
+          select {
+            width: 50%;
+          }
+        }
       }
-      li{
-       display: flex; 
-       flex-direction: column;
-       border: 1px solid red;
-       width: 100px;
-      }
-      select{
-        width: 50%;
+      aside {
+        display: flex;
+        flex-direction: column;
+        #list-car {
+          li {
+            display: flex;
+            
+            gap: 1rem;
+          }
+        }
       }
     </style>
 
     <script type="module" src="main.js"></script>
-
   </body>
 </html>
-
-
