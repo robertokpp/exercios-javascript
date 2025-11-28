@@ -37,6 +37,7 @@ function addIten(productList) {
 
     button.addEventListener("click", () => {
       addcarrinho(index, select.value);
+
       let NewAmount = product[index].amount - select.value;
       product[index].amount = NewAmount;
 
@@ -46,7 +47,17 @@ function addIten(productList) {
         li.insertBefore(newSelect, button);
         select = newSelect;
       }
+
+      if (select.value === "") {
+        select.remove();
+        button.remove();
+        const spanIndisponivel = document.createElement("span");
+        spanIndisponivel.textContent = "Produto indisponivel";
+        li.append(spanIndisponivel);
+      }
     });
+
+    li.id = `list-id-${item.name}`;
 
     li.append(spanName);
     li.append(spanPrice);
@@ -58,9 +69,9 @@ function addIten(productList) {
 
 addIten(product);
 
-function atualizarSelect(valorQtd) {
+function atualizarSelect(optionQtd) {
   let select = document.createElement("select");
-  for (let j = 1; j <= valorQtd; j++) {
+  for (let j = 1; j <= optionQtd; j++) {
     const option = document.createElement("option");
     option.textContent = j;
     option.value = j;
@@ -69,27 +80,73 @@ function atualizarSelect(valorQtd) {
   return select;
 }
 
+const arrayCar = [];
 function addcarrinho(item, qtd) {
-  const arrayCar = [];
+  const produto = product[item];
   const aside = document.querySelector("aside");
   const lisCar = document.getElementById("list-car");
+
+  let existente = arrayCar.find((p) => p.name === produto.name);
+  let vlrTotal = qtd * produto.price;
+
+  if (existente) {
+    existente.qtd += Number(qtd);
+    vlrTotal = existente.qtd * produto.price;
+    const spanQtd = document.getElementById(`qtd-${produto.name}`);
+    const spanTotal = document.getElementById(`price-${produto.name}`);
+    spanQtd.textContent = existente.qtd;
+    spanTotal.textContent = vlrTotal;
+    return;
+  }
+
+  const novoItem = {
+    name: produto.name,
+    price: produto.price,
+    qtd: Number(qtd),
+    total: vlrTotal,
+  };
+
+  arrayCar.push(novoItem);
+
   const li = document.createElement("li");
   const spanName = document.createElement("span");
   const spanPrice = document.createElement("span");
   const spanQtd = document.createElement("span");
-  
-  if (arrayCar.includes(product[item])) {
+  const spanTotal = document.createElement("span");
+  const buttonExcliur = document.createElement("button");
 
-    spanQtd.textContent += qtd;
+  spanName.textContent = produto.name;
+  spanPrice.textContent = produto.price;
+  spanQtd.textContent = qtd;
+  spanTotal.textContent = novoItem.total;
+  buttonExcliur.textContent = "DELETE";
 
-  } else {
+  spanTotal.id = `price-${novoItem.name}`;
+  spanQtd.id = `qtd-${novoItem.name}`;
 
-    spanName.textContent = product[item].name;
-    spanPrice.textContent = product[item].price;
-    spanQtd.textContent = qtd;
+  aside.append(lisCar);
+  lisCar.append(li);
+  li.append(spanName, spanPrice, spanQtd, spanTotal, buttonExcliur);
 
-    aside.append(lisCar);
-    lisCar.append(li);
-    li.append(spanName, spanPrice, spanQtd);
-  }
+  buttonExcliur.addEventListener("click", () => {
+    li.remove();
+
+    const indexToRemove = arrayCar.findIndex((p) => p.name === produto.name);
+    const returnLi = document.getElementById(`list-id-${produto.name}`);
+    const options = returnLi.querySelectorAll("select option");
+    const lastOption = options[options.length - 1];
+
+    console.log(Number(lastOption.value));
+    console.log(quantidadeAtual.value);
+    // if (quantidadeAtual > 0) {
+    //   console.log("deu certo");
+    // }
+    // const totalOption = Number(lastOption.value) + existente.qtd + arrayCar.qtd;
+    // console.log(totalOption)
+    atualizarSelect(arrayCar[indexToRemove].qtd);
+
+    if (indexToRemove !== -1) {
+      arrayCar.splice(indexToRemove, 1);
+    }
+  });
 }
