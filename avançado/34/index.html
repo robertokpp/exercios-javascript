@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <form id="my-form">
+      <div>
+        <label for="name">Nome:</label>
+        <input type="text" name="name" id="name" />
+      </div>
+      <div>
+        <label for="age">Idade:</label>
+        <input type="text" name="age" id="age" />
+      </div>
+
+      <div>
+        <label for="email">E-mail:</label>
+        <input type="text" name="email" id="email" />
+      </div>
+      <button type="submit">Cadastrar</button>
+    </form>
+    <div>
+      <button id="render">Itens Cadastrados</button>
+      <ul>
+
+      </ul>
+    </div>
+
+    <style>
+      *{
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+      }
+      body{
+        width: 100%;
+        padding: 1rem;
+      }
+      form{
+        margin-bottom: 3rem;
+      }
+      form div{
+        display: flex;
+        flex-direction: column;
+      }
+      form button{
+        margin-top: 1rem;
+      }
+      div ul{
+        display: flex;
+        gap: 2rem;
+        flex-wrap: wrap;
+      }
+      li{
+        border: 1px solid black;
+        width: 250px;
+        display: flex;
+        flex-direction: column;
+        padding: 1rem;
+      }
+    </style>
+    <script src="main.js"></script>
+  </body>
+</html>
