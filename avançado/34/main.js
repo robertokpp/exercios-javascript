@@ -1,8 +1,9 @@
 const form = document.getElementById("my-form");
 const ul = document.querySelector("ul");
 const btnRender = document.getElementById("render");
-const personas = [];
-let ids = 0;
+let renderDisplay = false;
+let personas = JSON.parse(localStorage.getItem("arrPersonas")) || [];
+let ids = personas.length > 0 ? personas[personas.length - 1].id : 0;
 
 function addItem(name, idade, email) {
   ids++;
@@ -12,27 +13,40 @@ function addItem(name, idade, email) {
     idade: idade,
     email: email,
   });
-  localStorage.setItem("arrPersonas", JSON.stringify(personas))
+  localStorage.setItem("arrPersonas", JSON.stringify(personas));
 }
 
 function renderList() {
-  personas.forEach((item) => {
+  const pesonasString = localStorage.getItem("arrPersonas");
+  const personaRes = JSON.parse(pesonasString);
+
+  if (renderDisplay === true) {
+    const lis = ul.querySelectorAll("li");
+    lis.forEach((element) => {
+      element.remove();
+    });
+    renderDisplay = false;
+  }
+
+  personaRes.forEach((item) => {
     const li = document.createElement("li");
     const cod = document.createElement("span");
     const spanName = document.createElement("span");
     const spanAge = document.createElement("span");
     const spanEmail = document.createElement("span");
-    const btnDelete = document.createElement("")
+    const btnDelete = document.createElement("button");
+
     cod.textContent = `Codigo: ${item.id}`;
     spanName.textContent = `Nome: ${item.nome}`;
     spanAge.textContent = `Idade: ${item.idade}`;
     spanEmail.textContent = `E-mail: ${item.email}`;
-
+    btnDelete.textContent = "Delete";
     li.id = item.id;
 
     ul.append(li);
-    li.append(cod, spanName, spanAge, spanEmail);
+    li.append(cod, spanName, spanAge, spanEmail, btnDelete);
   });
+  renderDisplay = true;
 }
 
 form.addEventListener("submit", (event) => {
@@ -40,7 +54,12 @@ form.addEventListener("submit", (event) => {
   const nameMyForn = form.querySelector("#name");
   const ageMyForn = form.querySelector("#age");
   const emailMyForn = form.querySelector("#email");
-  if (nameMyForn.value === "" || ageMyForn.value === "" || emailMyForn == "") {
+
+  if (
+    nameMyForn.value.trim() === "" ||
+    ageMyForn.value.trim() === "" ||
+    emailMyForn.value.trim() == ""
+  ) {
     alert("Os campos devem ser prencidos");
     return;
   } else {
