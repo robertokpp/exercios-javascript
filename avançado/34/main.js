@@ -42,11 +42,29 @@ function renderList() {
     spanEmail.textContent = `E-mail: ${item.email}`;
     btnDelete.textContent = "Delete";
     li.id = item.id;
+    btnDelete.value = item.id;
+    console.log(btnDelete.value);
+
+    btnDelete.addEventListener("click", () => {
+      if (confirm("deseja realmente excluir esse item ?")=== false) {
+        return;
+      } else {
+        removeItem(item.id);
+      }
+    });
 
     ul.append(li);
     li.append(cod, spanName, spanAge, spanEmail, btnDelete);
   });
   renderDisplay = true;
+}
+
+function removeItem(idRemover) {
+  let arr = JSON.parse(localStorage.getItem("arrPersonas"));
+  arr = arr.filter((p) => p.id !== idRemover);
+  personas = arr;
+  localStorage.setItem("arrPersonas", JSON.stringify(personas));
+  renderList();
 }
 
 form.addEventListener("submit", (event) => {
