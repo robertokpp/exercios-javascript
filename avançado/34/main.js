@@ -6,14 +6,21 @@ let personas = JSON.parse(localStorage.getItem("arrPersonas")) || [];
 let ids = personas.length > 0 ? personas[personas.length - 1].id : 0;
 
 function addItem(name, idade, email) {
-  ids++;
-  personas.push({
-    id: ids,
-    nome: name,
-    idade: idade,
-    email: email,
-  });
-  localStorage.setItem("arrPersonas", JSON.stringify(personas));
+  let vericaEmail = JSON.parse(localStorage.getItem("arrPersonas"));
+  vericaEmail = vericaEmail.some((p) => p.email === email);
+
+  if (vericaEmail === true) {
+    return alert("Email ja cadastrado");
+  } else {
+    ids++;
+    personas.push({
+      id: ids,
+      nome: name,
+      idade: idade,
+      email: email,
+    });
+    localStorage.setItem("arrPersonas", JSON.stringify(personas));
+  }
 }
 
 function renderList() {
@@ -46,7 +53,7 @@ function renderList() {
     console.log(btnDelete.value);
 
     btnDelete.addEventListener("click", () => {
-      if (confirm("deseja realmente excluir esse item ?")=== false) {
+      if (confirm("deseja realmente excluir esse item ?") === false) {
         return;
       } else {
         removeItem(item.id);
