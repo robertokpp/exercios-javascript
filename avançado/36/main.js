@@ -15,15 +15,15 @@ function maquinaPlay(jogador) {
 
 function gamePlay(jogador, maquina) {
   console.log(jogador, maquina);
-  if (jogador === "pedra" && maquina === "tesoura") {
+  if (jogador === "🪨" && maquina === "✂️") {
     p.textContent = "Voçe venceu"
     return;
   }
-  if (jogador === "papel" && maquina === "pedra") {
+  if (jogador === "📜" && maquina === "🪨") {
     p.textContent = "Voçe venceu"
     return;
   }
-  if (jogador === "tesoura" && maquina === "papel") {
+  if (jogador === "✂️" && maquina === "📜") {
     p.textContent = "Voçe venceu"
     return;
   }
